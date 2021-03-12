@@ -12,17 +12,17 @@ def checkView(request):
     context = {
         'Title': obj.title,
         'Desc': obj.desc,
-        'price': obj.price,
-        'Image': obj.image
+        'price': obj.price
     }
     return render(request, "test.html", context)
 
 def product_form(request):
-    form = ProductForm(request.POST or None)
+    form = ProductForm(request.POST)
     if form.is_valid():
         form.save()
+        Product.objects.create(**form.cleaned_data)
+        print(form)
     context = {
         'form' : form
-
     } 
-    return render(request, "test2.html", context)
+    return render(request, "test3.html", context)
